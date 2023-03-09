@@ -1,14 +1,47 @@
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.text.ParseException;
+import java.text.DateFormat;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
 class TP02Q01 {
-   // --------------------------------------------------------------------------------------------------------------- //
-      
-   public static boolean isFim(String s) { return (s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M'); } 
-    
-   // --------------------------------------------------------------------------------------------------------------- // 
+    // ---------------------------------------------------------------------------------------------------------------
+    // //
+
+    public static boolean isFim(String s) {
+        return (s.length() == 3 && s.charAt(0) == 'F' && s.charAt(1) == 'I' && s.charAt(2) == 'M');
+    }
+
+    // ---------------------------------------------------------------------------------------------------------------
+    // //
+
+    public static void main(String[] args) throws IOException {
+        System.setProperty("file.encoding", "UTF-8");
+        MyIO.setCharset("UTF-8");
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in, "UTF-8"));
+        String[] entrada = new String[1000];
+        int numEntrada = 0;
+        // Leitura da entrada padrao
+        do {
+            entrada[numEntrada] = br.readLine();
+        } while (isFim(entrada[numEntrada++]) == false);
+        numEntrada--; // Desconsiderar ultima linha contendo a palavra FIM
+        // Para cada linha de entrada, gerando uma de saida contendo o numero de letras maiusculas da entrada
+
+        for(int i = 0; i < numEntrada; i++){
+            Arq.openRead(entrada[i]);
+            String linha = Arq.readLine();
+            Personagem personagem = new Personagem();
+            personagem.ler(linha);
+            personagem.imprimir();
+        }
+    }
 }
 
-
-    class Personagem implements Cloneable {
-
+class Personagem implements Cloneable {
     private String nome;
     private int altura;
     private double peso;
@@ -22,7 +55,8 @@ class TP02Q01 {
     public Personagem() {
     }
 
-    public Personagem(String nome, int altura, double peso, String corDoCabelo, String corDaPele, String corDosOlhos, String anoNascimento, String genero, String homeworld) {
+    public Personagem(String nome, int altura, double peso, String corDoCabelo, String corDaPele, String corDosOlhos,
+            String anoNascimento, String genero, String homeworld) {
         this.nome = nome;
         this.altura = altura;
         this.peso = peso;
@@ -106,7 +140,6 @@ class TP02Q01 {
         this.homeworld = homeworld;
     }
 
-
     @Override
     public Personagem clone() {
         try {
@@ -116,10 +149,9 @@ class TP02Q01 {
         }
     }
 
-    public void ler(String linha)
-    {
-        linha = linha.replace(" ", ""); //remove os espaços
-        linha = linha.replace("'", ""); //remove as ''
+    public void ler(String linha) {
+        linha = linha.replace(" ", ""); // remove os espaços
+        linha = linha.replace("'", ""); // remove as ''
         linha = linha.replace("name", "");
         linha = linha.replace("height", "");
         linha = linha.replace("mass", "");
@@ -135,7 +167,7 @@ class TP02Q01 {
         linha = linha.replace("{", "");
         linha = linha.replace("}", "");
 
-        String[] dados  = linha.split(" ");
+        String[] dados = linha.split(" ");
         this.nome = dados[0];
         this.altura = Integer.parseInt(dados[1]);
         this.peso = Integer.parseInt(dados[2]);
@@ -148,8 +180,9 @@ class TP02Q01 {
 
     }
 
-
     public void imprimir() {
-        MyIO.println(" ## " + nome + "##" + altura + "##" + peso + "##" + corDoCabelo + "##" + corDaPele + "##" + corDosOlhos + "##" + anoNascimento + "##" + genero + "##" + homeworld );
+        MyIO.println(" ## " + nome + "##" + altura + "##" + peso + "##" + corDoCabelo + "##" + corDaPele + "##"
+                + corDosOlhos + "##" + anoNascimento + "##" + genero + "##" + homeworld);
     }
-}    
+
+}
