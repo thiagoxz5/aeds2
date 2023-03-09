@@ -107,11 +107,8 @@ class TP02Q01 {
     }
 
 
-
-
     @Override
     public Personagem clone() {
-        
         try {
             return (Personagem) super.clone();
         } catch (CloneNotSupportedException e) {
