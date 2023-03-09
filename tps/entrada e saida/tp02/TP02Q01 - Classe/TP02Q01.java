@@ -116,12 +116,37 @@ class TP02Q01 {
         }
     }
 
-    public void ler (String linha){
-         
+    public void ler(String linha)
+    {
+        linha = linha.replace(" ", ""); //remove os espaços
+        linha = linha.replace("'", ""); //remove as ''
+        linha = linha.replace("name", "");
+        linha = linha.replace("height", "");
+        linha = linha.replace("mass", "");
+        linha = linha.replace("hair_color", "");
+        linha = linha.replace("skin_color", "");
+        linha = linha.replace("eye_color", "");
+        linha = linha.replace("birth_year", "");
+        linha = linha.replace("gender", "");
+        linha = linha.replace("homeworld", "");
+        linha = linha.replace("films", "");
+        linha = linha.replace(",", "");
+        linha = linha.replace(":", " ");
+        linha = linha.replace("{", "");
+        linha = linha.replace("}", "");
+
+        String[] dados  = linha.split(" ");
+        this.nome = dados[0];
+        this.altura = Integer.parseInt(dados[1]);
+        this.peso = Integer.parseInt(dados[2]);
+        this.corDoCabelo = dados[3];
+        this.corDaPele = dados[4];
+        this.corDosOlhos = dados[5];
+        this.anoNascimento = dados[6];
+        this.genero = dados[7];
+        this.homeworld = dados[8];
 
     }
-
-
 
 
     public void imprimir() {
