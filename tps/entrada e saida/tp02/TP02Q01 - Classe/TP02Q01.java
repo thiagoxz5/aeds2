@@ -186,3 +186,4 @@ class Personagem implements Cloneable {
     }
 
 }
+
