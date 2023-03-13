@@ -29,14 +29,18 @@ class TP02Q01 {
             entrada[numEntrada] = br.readLine();
         } while (isFim(entrada[numEntrada++]) == false);
         numEntrada--; // Desconsiderar ultima linha contendo a palavra FIM
-        // Para cada linha de entrada, gerando uma de saida contendo o numero de letras maiusculas da entrada
+        // Para cada linha de entrada, gerando uma de saida contendo o numero de letras
+        // maiusculas da entrada
 
-        for(int i = 0; i < numEntrada; i++){
+        Personagem[] personagens = new Personagem[numEntrada];
+
+        for (int i = 0; i < personagens.length; i++)
+            personagens[i] = new Personagem();
+
+        for (int i = 0; i < numEntrada; i++) {
             Arq.openRead(entrada[i]);
-            String linha = Arq.readLine();
-            Personagem personagem = new Personagem();
-            personagem.ler(linha);
-            personagem.imprimir();
+            personagens[i].ler(Arq.readLine());
+            personagens[i].imprimir();
         }
     }
 }
@@ -152,6 +156,9 @@ class Personagem implements Cloneable {
     public void ler(String linha) {
         linha = linha.replace(" ", ""); // remove os espaços
         linha = linha.replace("'", ""); // remove as ''
+        linha = linha.replace("{", "");
+        linha = linha.replace("}", "");
+        linha = linha.replace(":", "");
         linha = linha.replace("name", "");
         linha = linha.replace("height", "");
         linha = linha.replace("mass", "");
@@ -161,22 +168,31 @@ class Personagem implements Cloneable {
         linha = linha.replace("birth_year", "");
         linha = linha.replace("gender", "");
         linha = linha.replace("homeworld", "");
-        linha = linha.replace("films", "");
-        linha = linha.replace(",", "");
-        linha = linha.replace(":", " ");
-        linha = linha.replace("{", "");
-        linha = linha.replace("}", "");
+        // limpa a linha
 
-        String[] dados = linha.split(" ");
-        this.nome = dados[0];
-        this.altura = Integer.parseInt(dados[1]);
-        this.peso = Integer.parseInt(dados[2]);
-        this.corDoCabelo = dados[3];
-        this.corDaPele = dados[4];
-        this.corDosOlhos = dados[5];
-        this.anoNascimento = dados[6];
-        this.genero = dados[7];
-        this.homeworld = dados[8];
+        int filmIndex = linha.indexOf("films");
+        linha = linha.substring(0, filmIndex - 1);
+        // remove as informações desnecessarias
+
+        int nameIndex = linha.indexOf("name");
+        int heightIndex = linha.indexOf("height");
+        int massIndex = linha.indexOf("mass");
+        int hair_colorIndex = linha.indexOf("hair_color");
+        int skin_colorIndex = linha.indexOf("skin_color");
+        int eye_colorIndex = linha.indexOf("eye_color");
+        int birth_yearIndex = linha.indexOf("birth_year");
+        int genderIndex = linha.indexOf("gender");
+        int homeworldIndex = linha.indexOf("homeworld");
+
+        this.nome = linha.substring(nameIndex + 4, heightIndex - 1);
+        this.altura = Integer.parseInt(linha.substring(heightIndex + 6, massIndex - 1));
+        this.peso = Double.parseDouble(linha.substring(massIndex + 4, hair_colorIndex - 1));
+        this.corDoCabelo = linha.substring(hair_colorIndex + 10, skin_colorIndex - 1);
+        this.corDaPele = linha.substring(skin_colorIndex + 10, eye_colorIndex - 1);
+        this.corDosOlhos = linha.substring(eye_colorIndex + 9, birth_yearIndex - 1);
+        this.anoNascimento = linha.substring(birth_yearIndex + 10, genderIndex - 1);
+        this.genero = linha.substring(genderIndex + 6, homeworldIndex - 1);
+        this.homeworld = linha.substring(homeworldIndex);
 
     }
 
@@ -186,4 +202,3 @@ class Personagem implements Cloneable {
     }
 
 }
-
