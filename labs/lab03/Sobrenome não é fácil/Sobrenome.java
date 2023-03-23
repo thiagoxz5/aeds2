@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
-public class Sobrenome {
+class Sobrenome {
+    
     public static void main(String[] args) {
         // variaveis e metodos
         Scanner scanner = new Scanner(System.in);
