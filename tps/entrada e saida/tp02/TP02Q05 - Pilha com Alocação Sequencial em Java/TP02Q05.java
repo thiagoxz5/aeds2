@@ -175,7 +175,9 @@ class TP02Q05 {
 
 
     //String caminho = "/tmp/personagens";
+    //String subString = caminho.substring(0, 16);
     //String caminho = "C:\Users\thiag\OneDrive\ÁreadeTrabalho\Aeds2@\aeds2\tps\entradaesaida\personagens"
+    //caminho + entrada
 
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
