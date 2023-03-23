@@ -173,6 +173,10 @@ class TP02Q05 {
         return file.length() == 3 && file.charAt(0) == 'F' && file.charAt(1) == 'I' && file.charAt(2) == 'M';
     }
 
+
+    //String caminho = "/tmp/personagens";
+    //String caminho = "C:\Users\thiag\OneDrive\ÁreadeTrabalho\Aeds2@\aeds2\tps\entradaesaida\personagens"
+
     public static void main(String[] args) throws Exception {
         Scanner sc = new Scanner(System.in);
         String file = new String(), line = new String();
