@@ -4,9 +4,8 @@
 #include <string.h>
 #include <time.h>
 
-// Definição do registro do personagem
-typedef struct Personagem
-{
+typedef struct Personagem{
+
     char nome[40];
     int altura;
     double peso;
@@ -18,9 +17,7 @@ typedef struct Personagem
     char homeworld[40];
 } Personagem;
 
-// Capturar o atributo entre aspas simples
-void leituraAtributo(char atributo[], char descricaoPersonagem[], int index)
-{
+void leituraAtributo(char atributo[], char descricaoPersonagem[], int index){
     int i = 0;
 
     while (descricaoPersonagem[index] != '\'')
@@ -34,9 +31,8 @@ void leituraAtributo(char atributo[], char descricaoPersonagem[], int index)
     atributo[i] = '\0';
 }
 
-// Função para testar o fim do arquivo
-bool testaFim(char palavra[])
-{
+bool testaFim(char palavra[]){
+
     bool teste = false;
 
     if (palavra[0] == 'F' && palavra[1] == 'I' && palavra[2] == 'M')
@@ -47,9 +43,8 @@ bool testaFim(char palavra[])
     return teste;
 }
 
-// Função para estruturar o personagem
-Personagem montaPersonagem(char caminhoArquivo[])
-{
+Personagem montaPersonagem(char caminhoArquivo[]){
+
     FILE *leitura = fopen(caminhoArquivo, "r");
 
     char descricaoPersonagem[1000];
@@ -60,15 +55,14 @@ Personagem montaPersonagem(char caminhoArquivo[])
 
     int contador = 0;
 
-    for (int i = 0; i < strlen(descricaoPersonagem); i++)
-    {
-        if (descricaoPersonagem[i] == ':')
-        {
+    for (int i = 0; i < strlen(descricaoPersonagem); i++){
+        if (descricaoPersonagem[i] == ':'){
+
             char atributo[50];
             contador++;
 
-            switch (contador)
-            {
+            switch (contador){
+
             case 1:
                 leituraAtributo(atributo, descricaoPersonagem, i + 3);
                 strcpy(personagem.nome, atributo);
@@ -79,10 +73,8 @@ Personagem montaPersonagem(char caminhoArquivo[])
                 break;
             case 3:
                 leituraAtributo(atributo, descricaoPersonagem, i + 3);
-                for (int i = 0; i < strlen(atributo); i++)
-                {
-                    if (atributo[i] == ',')
-                    {
+                for (int i = 0; i < strlen(atributo); i++){
+                    if (atributo[i] == ','){
                         atributo[i] = atributo[i - 1];
                         atributo[i - 1] = '0';
                     }
@@ -113,8 +105,7 @@ Personagem montaPersonagem(char caminhoArquivo[])
                 leituraAtributo(atributo, descricaoPersonagem, i + 3);
                 strcpy(personagem.homeworld, atributo);
 
-                i = strlen(descricaoPersonagem); // Encerra os ciclos de repetição desnecessários
-                break;
+                i = strlen(descricaoPersonagem);
             default:
                 break;
             }
@@ -126,11 +117,9 @@ Personagem montaPersonagem(char caminhoArquivo[])
     return personagem;
 }
 
-// Função para criar arquivo de log
-void criarLog(time_t inicio, int numeroComparacoes)
-{
+void criarLog(time_t inicio, int numeroComparacoes){
     float tempo;
-    time_t final = time(NULL); // Marcar o final da execução
+    time_t final = time(NULL);
 
     tempo = difftime(final, inicio);
 
@@ -145,15 +134,13 @@ int main(void)
 {
     char caminhoArquivo[100], nomePersonagem[100];
     int contadorTamanho = 0, numeroComparacoes = 0;
-    time_t inicio = time(NULL); // Marcar o início da execução
+    time_t inicio = time(NULL);
     Personagem listaPersonagem[100];
 
     scanf(" %[^\n]s", caminhoArquivo);
     getchar();
 
-    // Testa o fim da primeira parte do arquivo
-    while (testaFim(caminhoArquivo) == false)
-    {
+    while (testaFim(caminhoArquivo) == false){
         listaPersonagem[contadorTamanho] = montaPersonagem(caminhoArquivo);
         contadorTamanho += 1;
 
@@ -164,31 +151,26 @@ int main(void)
     scanf(" %[^\n]s", nomePersonagem);
     getchar();
 
-    // Testa o fim da segunda parte do arquivo
-    while (testaFim(nomePersonagem) == false)
-    {
+    while (testaFim(nomePersonagem) == false){
+
         bool comparaNomes = false;
         int esquerda = 0, direita = contadorTamanho - 1, meio;
 
-        // Realiza pesquisa binária
-        while (esquerda <= direita)
-        {
+        while (esquerda <= direita){
             numeroComparacoes++;
             meio = (esquerda + direita) / 2;
 
-            if ((strcmp(nomePersonagem, listaPersonagem[meio].nome)) == 0)
-            {
+            if ((strcmp(nomePersonagem, listaPersonagem[meio].nome)) == 0){
+
                 comparaNomes = true;
                 numeroComparacoes++;
                 esquerda = contadorTamanho; // Interrompe as repetições
             }
-            else if ((strcmp(nomePersonagem, listaPersonagem[meio].nome)) < 0)
-            {
+            else if ((strcmp(nomePersonagem, listaPersonagem[meio].nome)) < 0){
                 numeroComparacoes++;
                 direita = meio - 1;
             }
-            else
-            {
+            else{
                 esquerda = meio + 1;
             }
         }
@@ -202,7 +184,7 @@ int main(void)
         getchar();
     }
 
-    numeroComparacoes++; // Comparação ao não entrar no loop
+    numeroComparacoes++;
 
     criarLog(inicio, numeroComparacoes);
 
