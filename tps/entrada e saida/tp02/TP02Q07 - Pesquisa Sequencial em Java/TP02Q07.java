@@ -16,9 +16,6 @@ public class TP02Q07 {
             word = MyIO.readLine();
         } while (!isFim(word));
 
-        /**
-         * @TODO: imprimir
-         */
         String busca = MyIO.readLine();
         do {
             String encontrado = "NAO";
@@ -47,13 +44,13 @@ public class TP02Q07 {
             fr = new FileReader(word);
             br = new BufferedReader(fr);
 
-            // Ler cada linha do arquivo
+
             fileData = br.readLine();
 
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            // Fechar o BufferedReader e FileReader
+ 
             try {
                 if (br != null) {
                     br.close();

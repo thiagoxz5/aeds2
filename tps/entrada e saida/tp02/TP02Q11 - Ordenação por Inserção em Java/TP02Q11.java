@@ -18,9 +18,7 @@ public class TP02Q11 {
 
         personagens.sort();
 
-        /**
-         * @TODO: imprimir
-         */
+
         for (int i = 0; i < personagens.n; i++) {
             personagens.array[i].imprimir();
         }

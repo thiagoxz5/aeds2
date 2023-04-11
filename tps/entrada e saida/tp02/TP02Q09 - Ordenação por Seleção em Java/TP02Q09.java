@@ -18,9 +18,6 @@ public class TP02Q09 {
 
         personagens.sort();
 
-        /**
-         * @TODO: imprimir
-         */
         for (int i = 0; i < personagens.n; i++) {
             personagens.array[i].imprimir();
         }
@@ -40,13 +37,11 @@ public class TP02Q09 {
             fr = new FileReader(word);
             br = new BufferedReader(fr);
 
-            // Ler cada linha do arquivo
             fileData = br.readLine();
 
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            // Fechar o BufferedReader e FileReader
             try {
                 if (br != null) {
                     br.close();
