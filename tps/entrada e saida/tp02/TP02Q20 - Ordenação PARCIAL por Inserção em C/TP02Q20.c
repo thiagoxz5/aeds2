@@ -5,7 +5,7 @@
 #include <time.h>
 
 typedef struct Personagem{
-    
+
     char nome[40];
     int altura;
     double peso;
@@ -17,13 +17,11 @@ typedef struct Personagem{
     char homeworld[40];
 } Personagem;
 
-double fmod(double x, double y)
-{
+double fmod(double x, double y){
     return x - (int)(x / y) * y;
 }
 
-void leituraAtributo(char atributo[], char descricaoPersonagem[], int index)
-{
+void leituraAtributo(char atributo[], char descricaoPersonagem[], int index){
     int i = 0;
 
     while (descricaoPersonagem[index] != '\'')
@@ -39,32 +37,28 @@ void leituraAtributo(char atributo[], char descricaoPersonagem[], int index)
 
 bool testaFim(char palavra[]){
     bool teste = false;
-
-    if (palavra[0] == 'F' && palavra[1] == 'I' && palavra[2] == 'M')
-    {
+    if (palavra[0] == 'F' && palavra[1] == 'I' && palavra[2] == 'M'){
         teste = true;
     }
-
     return teste;
 }
 
 Personagem montaPersonagem(char caminhoArquivo[]){
     FILE *leitura = fopen(caminhoArquivo, "r");
-
     char descricaoPersonagem[1000];
-
-    fscanf(leitura, " %[^\n]s", descricaoPersonagem);
-
+    fscanf(leitura, " %[^\n]s", descricaoPerson/agem);
     Personagem personagem;
-
     int contador = 0;
 
-    for (int i = 0; i < strlen(descricaoPersonagem); i++){
-        if (descricaoPersonagem[i] == ':'){
+    for (int i = 0; i < strlen(descricaoPersonagem); i++)
+    {
+        if (descricaoPersonagem[i] == ':')
+        {
             char atributo[50];
             contador++;
 
-            switch (contador){
+            switch (contador)
+            {
             case 1:
                 leituraAtributo(atributo, descricaoPersonagem, i + 3);
                 strcpy(personagem.nome, atributo);
@@ -118,78 +112,32 @@ Personagem montaPersonagem(char caminhoArquivo[]){
     }
 
     fclose(leitura);
+
     return personagem;
 }
 
-int getMaximo(Personagem listaPersonagens[], int tamanhoVetor, int *ptrComp){
-    int max = listaPersonagens[0].altura;
-    for (int i = 1; i < tamanhoVetor; i++){
-        if (listaPersonagens[i].altura > max){
-            max = listaPersonagens[i].altura;
-        }
-        *ptrComp += 2;
-    }
-    *ptrComp += 1;
-    return max;
-}
-
-void countingSort(Personagem listaPersonagens[], int tamanhoVetor, int posicao, int *ptrComp, int *ptrMov){
-    Personagem listaOrdenada[tamanhoVetor + 1];
-    int max = (listaPersonagens[0].altura / posicao) % 10;
-
-    for (int i = 1; i < tamanhoVetor; i++){
-        if (((listaPersonagens[i].altura / posicao) % 10) > max)
-            max = listaPersonagens[i].altura;
-        *ptrComp += 2;
-    }
-    int count[max + 1];
-
-    for (int i = 0; i < max; ++i){
-        *ptrComp += 1;
-        *ptrMov += 1;
-        count[i] = 0;
-    }
-
-    for (int i = 0; i < tamanhoVetor; i++){
-        *ptrComp += 1;
-        *ptrMov += 1;
-        count[(listaPersonagens[i].altura / posicao) % 10]++;
-    }
-
-    for (int i = 1; i < 10; i++){
-        *ptrComp += 1;
-        *ptrMov += 1;
-        count[i] += count[i - 1];
-    }
-
-    for (int i = tamanhoVetor - 1; i >= 0; i--){
-        listaOrdenada[count[(listaPersonagens[i].altura / posicao) % 10] - 1] = listaPersonagens[i];
-        count[(listaPersonagens[i].altura / posicao) % 10]--;
-
-        *ptrComp += 1;
-        *ptrMov += 1;
-    }
-
-    for (int i = 0; i < tamanhoVetor; i++){
-        *ptrComp += 1;
-        *ptrMov += 1;
-
-        listaPersonagens[i] = listaOrdenada[i];
-    }
-}
-
-void ordenaPorRadixSort(Personagem listaPersonagens[], int tamanhoVetor, int *ptrComp, int *ptrMov){
-    int max = getMaximo(listaPersonagens, tamanhoVetor, ptrComp);
-
-    for (int posicao = 1; max / posicao > 0; posicao *= 10){
-        *ptrComp += 1;
-        countingSort(listaPersonagens, tamanhoVetor, posicao, ptrComp, ptrMov);
-    }
-}
-
-void imprimirAtributos(Personagem listaPersonagens[], int tamanhoTotal){
-    for (int i = 0; i < tamanhoTotal; i++)
+void ordenaPorInsercao(Personagem listaPersonagem[], int tamanhoVetor, int k, int *ptrComp, int *ptrMov){
+    for (int i = 1; i < tamanhoVetor; i += 1)
     {
+        Personagem personagemTemporario = listaPersonagem[i];
+        int j = (j < k) ? i - 1 : k - 1;
+        while ((j >= 0) && ((strcmp(listaPersonagem[j].anoNascimento, personagemTemporario.anoNascimento) > 0)))
+        {
+            *ptrComp += 3;
+            *ptrMov += 1;
+            listaPersonagem[j + 1] = listaPersonagem[j];
+            j -= 1;
+        }
+        *ptrComp += 1;
+        *ptrMov += 1;
+        listaPersonagem[j + 1] = personagemTemporario;
+    }
+
+    *ptrComp += 1;
+}
+
+void imprimirAtributos(Personagem listaPersonagens[], int k){
+    for (int i = 0; i < k; i++){
         printf(" ## %s", listaPersonagens[i].nome);
         printf(" ## %d", listaPersonagens[i].altura);
         if (fmod(listaPersonagens[i].peso, 1) == 0)
@@ -209,15 +157,15 @@ void imprimirAtributos(Personagem listaPersonagens[], int tamanhoTotal){
 void criarLog(time_t inicio, int numeroComparacoes, int numeroMovimentacoes){
     float tempo;
     time_t final = time(NULL);
-
     tempo = difftime(final, inicio);
-
 }
 
-int main(void){
+int main(void)
+{
     char caminhoArquivo[100], nomePersonagem[100];
     int contadorTamanho = 0, numeroComparacoes = 0, numeroMovimentacoes = 0;
     int *ptrComp = &numeroComparacoes, *ptrMov = &numeroMovimentacoes;
+    int k = 10;
     time_t inicio = time(NULL);
     Personagem listaPersonagem[100];
     scanf(" %[^\n]s", caminhoArquivo);
@@ -226,13 +174,12 @@ int main(void){
     while (testaFim(caminhoArquivo) == false){
         listaPersonagem[contadorTamanho] = montaPersonagem(caminhoArquivo);
         contadorTamanho += 1;
-
         scanf(" %[^\n]s", caminhoArquivo);
         getchar();
     }
 
-    ordenaPorRadixSort(listaPersonagem, contadorTamanho, ptrComp, ptrMov);
-    imprimirAtributos(listaPersonagem, contadorTamanho);
+    ordenaPorInsercao(listaPersonagem, contadorTamanho, k, ptrComp, ptrMov);
+    imprimirAtributos(listaPersonagem, k);
     criarLog(inicio, numeroComparacoes, numeroMovimentacoes);
     return 0;
 }
