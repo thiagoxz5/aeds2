@@ -16,11 +16,9 @@ class Character {
     public void setName(String name) {
         this.name = name;
     }
-
     public String getName() {
         return name;
     }
-
     public void setHeight(String height) {
         if (height.contains("unknown")) {
             this.height = 0;
@@ -28,11 +26,9 @@ class Character {
             this.height = Integer.parseInt(height);
         }
     }
-
     public int getHeight() {
         return height;
     }
-
     public void setWeight(String weight) {
         if (weight.contains("unknown")) {
             this.weight = 0;
@@ -43,7 +39,6 @@ class Character {
             this.weight = Double.parseDouble(weight);
         }
     }
-
     public int getWeight() {
         return (int) weight;
     }

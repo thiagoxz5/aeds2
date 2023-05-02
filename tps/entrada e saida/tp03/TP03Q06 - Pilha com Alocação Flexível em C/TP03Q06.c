@@ -4,8 +4,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-typedef struct Character
-{
+typedef struct Character{
     char name[100];
     int height;
     double weight;
@@ -18,11 +17,9 @@ typedef struct Character
 
 } Character;
 
-Character *cloneCharacter(Character *original)
-{
+Character *cloneCharacter(Character *original){
     Character *clone = (Character *)malloc(sizeof(Character));
-    if (clone == NULL)
-    {
+    if (clone == NULL){
         printf("Erro: falha ao alocar memória para clone.\n");
         return NULL;
     }
@@ -40,118 +37,92 @@ Character *cloneCharacter(Character *original)
     return clone;
 }
 
-void setName(Character *p, char *name)
-{
+void setName(Character *p, char *name){
     strcpy(p->name, name);
 }
 
-char *getName(Character *p)
-{
+char *getName(Character *p){
     return p->name;
 }
 
-void setHeight(Character *p, char *height)
-{
-    if (strstr(height, "unknown"))
-    {
+void setHeight(Character *p, char *height){
+    if (strstr(height, "unknown")){
         p->height = 0;
     }
-    else
-    {
+    else{
         p->height = atoi(height);
     }
 }
-int getHeight(Character *p)
-{
+int getHeight(Character *p){
     return p->height;
 }
 
-void setWeight(Character *p, char *weight)
-{
-    if (strstr(weight, "unknown"))
-    {
+void setWeight(Character *p, char *weight){
+    if (strstr(weight, "unknown")){
         p->weight = 0;
     }
-    else
-    {
+    else{
         p->weight = atof(weight);
     }
 }
 
-int getWeight(Character *p)
-{
+int getWeight(Character *p){
     return (int)p->weight;
 }
 
-void setColorHair(Character *p, char *colorHair)
-{
+void setColorHair(Character *p, char *colorHair){
     strcpy(p->colorHair, colorHair);
 }
 
-char *getColorHair(Character *p)
-{
+char *getColorHair(Character *p){
     return p->colorHair;
 }
 
-void setSkinColor(Character *p, char *skinColor)
-{
+void setSkinColor(Character *p, char *skinColor){
     strcpy(p->skinColor, skinColor);
 }
 
-char *getSkinColor(Character *p)
-{
+char *getSkinColor(Character *p){
     return p->skinColor;
 }
 
-void setEyeColor(Character *p, char *eyeColor)
-{
+void setEyeColor(Character *p, char *eyeColor){
     strcpy(p->eyeColor, eyeColor);
 }
 
-char *getEyeColor(Character *p)
-{
+char *getEyeColor(Character *p){
     return p->eyeColor;
 }
 
-void setYearOfBirth(Character *p, char *yearOfBirth)
-{
+void setYearOfBirth(Character *p, char *yearOfBirth){
     strcpy(p->yearOfBirth, yearOfBirth);
 }
 
-char *getYearOfBirth(Character *p)
-{
+char *getYearOfBirth(Character *p){
     return p->yearOfBirth;
 }
 
-void setGender(Character *p, char *gender)
-{
+void setGender(Character *p, char *gender){
     strcpy(p->gender, gender);
 }
 
-char *getGender(Character *p)
-{
+char *getGender(Character *p){
     return p->gender;
 }
 
-void setHomeworld(Character *p, char *homeworld)
-{
+void setHomeworld(Character *p, char *homeworld){
     strcpy(p->homeworld, homeworld);
 }
 
-char *getHomeworld(Character *p)
-{
+char *getHomeworld(Character *p){
     return p->homeworld;
 }
 
-//====================================================================//
-
-void str_replace(char *str, const char *from, const char *to)
-{
+void str_replace(char *str, const char *from, const char *to){
     int len_from = strlen(from);
 
     char *p;
-    while ((p = strstr(str, from)) != NULL)
-    {
+    while ((p = strstr(str, from)) != NULL){
         char buf[1024];
         strcpy(buf, p + len_from);
 
@@ -161,34 +132,20 @@ void str_replace(char *str, const char *from, const char *to)
     }
 }
 
-//====================================================================//
-
-void read_line(Character *p, char *line)
-{
-    //===================================================//
-
+void read_line(Character *p, char *line){
     str_replace(line, "{", "");
     str_replace(line, "}", "");
     str_replace(line, "': ", "");
-
-    //===================================================//
-
     char *token;
     token = strtok(line, "[");
-
-    //===================================================//
-
     char *token2;
     char attribute[100][100];
     int indexCount = 0;
     token2 = strtok(line, "'");
-    while (token2 != NULL)
-    {
+    while (token2 != NULL){
         strcpy(attribute[indexCount++], token2);
         token2 = strtok(NULL, "'");
     }
-
-    //===================================================//
 
     setName(p, attribute[1]);
     setHeight(p, attribute[4]);
@@ -201,10 +158,8 @@ void read_line(Character *p, char *line)
     setHomeworld(p, attribute[25]);
 }
 
-//====================================================================//
 
-void print_character(Character p)
-{
+void print_character(Character p){
     printf(" ## %s ## ", p.name);
     printf("%d ## ", p.height);
     printf("%g ## ", p.weight);
@@ -217,33 +172,24 @@ void print_character(Character p)
     printf("\n");
 }
 
-//====================================================================//
 
-bool isFim(char *s)
-{
-    if (strlen(s) == 3 && s[0] == 'F' && s[1] == 'I' && s[2] == 'M')
-    {
+bool isFim(char *s){
+    if (strlen(s) == 3 && s[0] == 'F' && s[1] == 'I' && s[2] == 'M'){
         return true;
     }
-    else
-    {
+    else{
         return false;
     }
 }
 
-//"Class" List of Personagens//
-//====================================================================//
-
-typedef struct Cell
-{
+typedef struct Cell{
     Character element;
     struct Cell *next;
 } Cell;
 
 int numberOfElements = 0;
 
-Cell *newCell(Character *character)
-{
+Cell *newCell(Character *character){
     Cell *new = (Cell *)malloc(sizeof(Cell));
     new->element = *character;
     new->next = NULL;
@@ -252,24 +198,20 @@ Cell *newCell(Character *character)
 
 Cell *first, *last;
 
-void start()
-{
+void start(){
     Character *new = (Character *)malloc(sizeof(Character));
     first = newCell(new);
     last = first;
 }
 
-void insert(Character *character)
-{
+void insert(Character *character){
     last->next = newCell(character);
     last = last->next;
     numberOfElements++;
 }
 
-Character removeLast(void)
-{
-    if (first == last)
-    {
+Character removeLast(void){
+    if (first == last){
         printf("ERRO!");
     }
     Cell *i;
@@ -283,46 +225,37 @@ Character removeLast(void)
     return element;
 }
 
-void show()
-{
+void show(){
     Cell *i;
     int j = 0;
-    for (i = first->next; i != NULL; i = i->next)
-    {
+    for (i = first->next; i != NULL; i = i->next){
         printf("[%d] ", j);
         print_character(i->element);
         j++;
     }
 }
 
-//"Class" Main//
-//====================================================================//
-int main(void)
-{
+int main(void){
     FILE *file;
     char json_txt[100][100];
     int cont = 0;
     start();
-    do
-    {
+    do {
         Character p;
         fgets(json_txt[cont], 100, stdin);
         json_txt[cont][strcspn(json_txt[cont], "\n")] = '\0';
-        if (isFim(json_txt[cont]) == true)
-        {
+        if (isFim(json_txt[cont]) == true){
             break;
         }
         file = fopen(json_txt[cont], "r");
-        if (file != NULL)
-        {
+        if (file != NULL){
             char line[1000];
             fgets(line, 1000, file);
             read_line(&p, line);
             insert(&p);
             fclose(file);
         }
-        else
-        {
+        else{
             printf("Failed to open file: %s\n", json_txt[cont]);
         }
     } while (isFim(json_txt[cont++]) == false);
@@ -330,16 +263,12 @@ int main(void)
     int n = 0;
     scanf("%d", &n);
     char json_address[100][100];
-    for (int i = 0; i <= n; i++)
-    {
+    for (int i = 0; i <= n; i++){
         Character p1;
         fgets(json_address[i], 100, stdin);
         json_address[i][strcspn(json_address[i], "\n")] = '\0';
-
         char *token = strtok(json_address[i], " ");
-
-        if (strcmp(json_address[i], "I") == 0)
-        {
+        if (strcmp(json_address[i], "I") == 0){
             token = strtok(NULL, " ");
             char line[1000];
             file = fopen(token, "r");
@@ -347,8 +276,7 @@ int main(void)
             read_line(&p1, line);
             insert(&p1);
         }
-        else if (strcmp(json_address[i], "R") == 0)
-        {
+        else if (strcmp(json_address[i], "R") == 0){
             printf("(R) %s\n", removeLast().name);
         }
     }
