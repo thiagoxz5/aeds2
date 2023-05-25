@@ -10,7 +10,7 @@ public class Principal2 {
 
         Random gerador = new Random();
         gerador.setSeed(0);
-        for(int i = 1; i <= 100000; i++){
+        for(int i = 1; i <= 1024; i++){
             int valor;
             do {
                 valor = Math.abs(gerador.nextInt());
